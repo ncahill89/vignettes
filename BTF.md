@@ -12,7 +12,7 @@ for Windows and
 for MAC.
 
 ``` r
-devtools::install_github("ncahill89/BTFrr")
+devtools::install_github("ncahill89/BTFr")
 ```
 
 You can then load the BTFr package using the `library` function.
