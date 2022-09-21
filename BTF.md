@@ -12,18 +12,18 @@ for Windows and
 for MAC.
 
 ``` r
-devtools::install_github("ncahill89/BTF")
+devtools::install_github("ncahill89/BTFrr")
 ```
 
-You can then load the BTF package using the `library` function.
+You can then load the BTFr package using the `library` function.
 
 ``` r
-library(BTF)
+library(BTFr)
 ```
 
 ## Introduction
 
-In this vignette we will run the Bayesian Transfer Function (BTF). There
+In this vignette we will run the Bayesian Transfer Function (BTFr). There
 are options to use the package default which contains data for New
 Jersey, USA. Alternatively, you can supply your own data. When supplying
 data, use the package defaults as templates for formatting.
@@ -32,7 +32,7 @@ data, use the package defaults as templates for formatting.
 
 ``` r
 ## Example modern elevation
-BTF::NJ_modern_elevation
+BTFr::NJ_modern_elevation
 ```
 
     ## # A tibble: 175 × 3
@@ -52,7 +52,7 @@ BTF::NJ_modern_elevation
 
 ``` r
 ## Example modern species data
-BTF::NJ_modern_species
+BTFr::NJ_modern_species
 ```
 
     ## # A tibble: 175 × 23
@@ -74,7 +74,7 @@ BTF::NJ_modern_species
 
 ``` r
 ## Example core species data
-BTF::NJ_core_species
+BTFr::NJ_core_species
 ```
 
     ## # A tibble: 69 × 24
@@ -96,7 +96,7 @@ BTF::NJ_core_species
 
 ``` r
 ## Example core priors
-BTF::NJ_priors
+BTFr::NJ_priors
 ```
 
     ## # A tibble: 69 × 3
@@ -129,13 +129,13 @@ Save the `modern_mod` object to avoid having to rerun this part of the
 model again. You can save it with the name of your choosing.
 
 ``` r
-saveRDS(modern_mod,file = "NJ_modern_BTF.rds")
+saveRDS(modern_mod,file = "NJ_modern_BTFr.rds")
 ```
 
 To read it in again you use
 
 ``` r
-modern_mod <- readRDS(file = "NJ_modern_BTF.rds")
+modern_mod <- readRDS(file = "NJ_modern_BTFr.rds")
 ```
 
 ## Species Response Curves (SRC)
@@ -162,7 +162,7 @@ src <- response_curves(modern_mod,
 src$src_plot
 ```
 
-![](BTF_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
+![](BTFr_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
 
 **Get raw relative abundance data**
 
@@ -215,9 +215,9 @@ the parameter estimation is adequate” to know everything has converged
 properly with the model.
 
 ``` r
-NJ_core_species <- BTF::NJ_core_species
+NJ_core_species <- BTFr::NJ_core_species
 
-core_mod <- BTF::run_core(modern_mod,
+core_mod <- BTFr::run_core(modern_mod,
                           core_species = NJ_core_species)
 ```
 
@@ -225,13 +225,13 @@ Save the `core_mod` object to avoid having to rerun this part of the
 model again. You can save it with the name of your choosing.
 
 ``` r
-saveRDS(core_mod,file = "NJ_core_BTF.rds")
+saveRDS(core_mod,file = "NJ_core_BTFr.rds")
 ```
 
 To read it in again you use
 
 ``` r
-core_mod <- readRDS(file = "NJ_core_BTF.rds")
+core_mod <- readRDS(file = "NJ_core_BTFr.rds")
 ```
 
 ## Get reconstruction results
@@ -270,7 +270,7 @@ swli_res$SWLI_dat
 swli_res$p_SWLI
 ```
 
-![](BTF_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
+![](BTFr_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
 
 If you wish to include priors for elevation then you can provide the
 prior information with the `prior_el` argument. Below is an example
@@ -278,9 +278,9 @@ using the priors for New Jersey that are provided as part of the package
 data.
 
 ``` r
-NJ_priors <- BTF::NJ_priors
+NJ_priors <- BTFr::NJ_priors
 
-core_mod <- BTF::run_core(modern_mod,
+core_mod <- BTFr::run_core(modern_mod,
                           core_species = NJ_core_species,
                           prior_el = NJ_priors)
 ```
@@ -301,7 +301,7 @@ NFLD_elevation <- read_csv("NFLD_elevation.csv")
 NFLD_core_species <- read_csv("NFLD_core_species.csv")
 ```
 
-Once you have read in your data you can proceed with running the BTF.
+Once you have read in your data you can proceed with running the BTFr.
 
 ``` r
 modern_mod <- run_modern(modern_elevation = NFLD_elevation,
@@ -318,7 +318,7 @@ src <- response_curves(modern_mod,
 src$src_plot
 ```
 
-![](BTF_files/figure-gfm/unnamed-chunk-25-1.png)<!-- -->
+![](BTFr_files/figure-gfm/unnamed-chunk-25-1.png)<!-- -->
 
 ## Run the reconstruction model
 
@@ -326,7 +326,7 @@ src$src_plot
 core_mod <- run_core(modern_mod,
                      core_species = NFLD_core_species)
 
-saveRDS(core_mod, file = "NFLD_core_BTF.rds")
+saveRDS(core_mod, file = "NFLD_core_BTFr.rds")
 ```
 
 **Look at the results**
@@ -336,12 +336,12 @@ swli_res <- swli_results(core_mod)
 swli_res$p_SWLI
 ```
 
-![](BTF_files/figure-gfm/unnamed-chunk-28-1.png)<!-- -->
+![](BTFr_files/figure-gfm/unnamed-chunk-28-1.png)<!-- -->
 
 ## Run a validation
 
 This step should be taken if you have a new modern calibration dataset
-that has not previously been validated with the BTF. If you want to run
+that has not previously been validated with the BTFr. If you want to run
 a single validation with 90% training data and 10% test data
 (recommended for very large datasets) then run the code below.
 
@@ -389,7 +389,7 @@ ggplot(valid_run, aes(x = True, y = SWLI)) +
   geom_line(aes(x = True, y = True))
 ```
 
-![](BTF_files/figure-gfm/unnamed-chunk-33-1.png)<!-- -->
+![](BTFr_files/figure-gfm/unnamed-chunk-33-1.png)<!-- -->
 
 If you want to run a full 10-fold cross validation to get an out of
 sample prediction for all the modern samples, then run the code below.
